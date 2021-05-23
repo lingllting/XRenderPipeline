@@ -1,21 +1,8 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CameraRenderer
+public partial class CameraRenderer
 {
-    private static ShaderTagId s_unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
-    private static ShaderTagId[] s_legacyShaderTagIds =
-    {
-        new ShaderTagId("Always"),
-        new ShaderTagId("ForwardBase"),
-        new ShaderTagId("PrepassBase"),
-        new ShaderTagId("Vertex"),
-        new ShaderTagId("VertexLMRGBM"),
-        new ShaderTagId("VertexLM")
-    };
-    
-    private static Material s_errorMaterial;
-    
     private const string BUFFER_NAME = "Render Camera";
     private ScriptableRenderContext _context;
     private Camera _camera;
@@ -27,6 +14,9 @@ public class CameraRenderer
     {
         _context = context;
         _camera = camera;
+
+        PrepareBuffer();
+        PrepareForSceneWindow();
         
         if (!Cull()) 
         {
@@ -34,22 +24,24 @@ public class CameraRenderer
         }
 
         context.SetupCameraProperties(camera);
-        _commandBuffer.ClearRenderTarget(true, true, Color.clear);
-        _commandBuffer.BeginSample(BUFFER_NAME);
+        CameraClearFlags flags = camera.clearFlags;
+        _commandBuffer.ClearRenderTarget(flags <= CameraClearFlags.Depth, flags == CameraClearFlags.Color, flags == CameraClearFlags.Color ? camera.backgroundColor.linear : Color.clear);
+        _commandBuffer.BeginSample(SampleName);
         {
             ExecuteCommandBuffer();
             DrawVisibleGeometry();
             DrawUnsupportedShaders();
         }
-        _commandBuffer.EndSample(BUFFER_NAME);
+        _commandBuffer.EndSample(SampleName);
         ExecuteCommandBuffer();
-        
+
+        DrawGizmos();
         Submit();
     }
     
     void DrawVisibleGeometry() 
     {
-        var sortingSettings = new SortingSettings(_camera){};
+        var sortingSettings = new SortingSettings(_camera);
         var drawingSettings = new DrawingSettings();
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         
@@ -92,23 +84,5 @@ public class CameraRenderer
             return true;
         }
         return false;
-    }
-    
-    void DrawUnsupportedShaders() 
-    {
-        if (s_errorMaterial == null) 
-        {
-            s_errorMaterial = new Material(Shader.Find("Hidden/InternalErrorShader"));
-        }
-        var drawingSettings = new DrawingSettings(s_legacyShaderTagIds[0], new SortingSettings(_camera))
-        {
-            overrideMaterial = s_errorMaterial
-        };
-        for (int i = 1; i < s_legacyShaderTagIds.Length; i++) 
-        {
-            drawingSettings.SetShaderPassName(i, s_legacyShaderTagIds[i]);
-        }
-        var filteringSettings = FilteringSettings.defaultValue;
-        _context.DrawRenderers(_cullingResults, ref drawingSettings, ref filteringSettings);
     }
 }
