@@ -4,7 +4,9 @@
 //About precision: float for positions and texture coordinates only and half for everything else
 
 #include "../ShaderLibrary/Common.hlsl"
-float4 _BaseColor;
+CBUFFER_START(UnityPerMaterial)
+    float4 _BaseColor;
+CBUFFER_END
 
 // homogeneous clip space position
 float4 UnlitPassVertex (float3 positionOS : POSITION) : SV_POSITION 
