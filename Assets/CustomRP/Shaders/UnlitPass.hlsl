@@ -4,6 +4,7 @@
 //About precision: float for positions and texture coordinates only and half for everything else
 
 #include "../ShaderLibrary/Common.hlsl"
+float4 _BaseColor;
 
 // homogeneous clip space position
 float4 UnlitPassVertex (float3 positionOS : POSITION) : SV_POSITION 
@@ -14,7 +15,7 @@ float4 UnlitPassVertex (float3 positionOS : POSITION) : SV_POSITION
 
 float4 UnlitPassFragment () : SV_TARGET
 {
-    return float4(0.6f, 0.5f, 0.3f, 1);
+    return _BaseColor;
 }
 
 #endif
