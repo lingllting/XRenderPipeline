@@ -50,6 +50,8 @@ public partial class CameraRenderer
         
         // render opaque objects
         drawingSettings.sortingSettings = sortingSettings;
+        drawingSettings.enableDynamicBatching = false;
+        drawingSettings.enableInstancing = true;
         sortingSettings.criteria = SortingCriteria.CommonOpaque;
         // It has issue here if instantiating FilteringSettings with contructor with empty parameter and assign the value here
         // filteringSettings.renderQueueRange = RenderQueueRange.opaque;
