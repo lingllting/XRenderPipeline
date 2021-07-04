@@ -9,7 +9,7 @@ public partial class CameraRenderer
     private CommandBuffer _commandBuffer = new CommandBuffer{name = BUFFER_NAME};
     private CullingResults _cullingResults;
     
-    public void Render(ScriptableRenderContext context, Camera camera)
+    public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
         _context = context;
         _camera = camera;
@@ -28,7 +28,7 @@ public partial class CameraRenderer
         _commandBuffer.BeginSample(SampleName);
         {
             ExecuteCommandBuffer();
-            DrawVisibleGeometry();
+            DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
             DrawUnsupportedShaders();
         }
         _commandBuffer.EndSample(SampleName);
@@ -38,7 +38,7 @@ public partial class CameraRenderer
         Submit();
     }
     
-    void DrawVisibleGeometry() 
+    void DrawVisibleGeometry(bool useDynamicBatching, bool useGPUInstancing) 
     {
         var sortingSettings = new SortingSettings(_camera);
         var drawingSettings = new DrawingSettings();
@@ -49,8 +49,8 @@ public partial class CameraRenderer
         
         // render opaque objects
         drawingSettings.sortingSettings = sortingSettings;
-        drawingSettings.enableDynamicBatching = true;
-        drawingSettings.enableInstancing = false;
+        drawingSettings.enableDynamicBatching = useDynamicBatching;
+        drawingSettings.enableInstancing = useGPUInstancing;
         sortingSettings.criteria = SortingCriteria.CommonOpaque;
         // It has issue here if instantiating FilteringSettings with contructor with empty parameter and assign the value here
         // filteringSettings.renderQueueRange = RenderQueueRange.opaque;
