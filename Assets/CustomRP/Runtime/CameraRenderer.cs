@@ -46,12 +46,15 @@ public partial class CameraRenderer
         
         // set allowed shader pass name
         drawingSettings.SetShaderPassName(0, s_unlitShaderTagId);
+        drawingSettings.SetShaderPassName(1, s_litShaderTagId);
         
-        // render opaque objects
-        drawingSettings.sortingSettings = sortingSettings;
+        // set batching 
         drawingSettings.enableDynamicBatching = useDynamicBatching;
         drawingSettings.enableInstancing = useGPUInstancing;
+        
+        // render opaque objects
         sortingSettings.criteria = SortingCriteria.CommonOpaque;
+        drawingSettings.sortingSettings = sortingSettings;
         // It has issue here if instantiating FilteringSettings with contructor with empty parameter and assign the value here
         // filteringSettings.renderQueueRange = RenderQueueRange.opaque;
         _context.DrawRenderers(_cullingResults, ref drawingSettings, ref filteringSettings);

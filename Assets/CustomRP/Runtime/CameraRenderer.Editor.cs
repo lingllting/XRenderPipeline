@@ -13,6 +13,8 @@ public partial class CameraRenderer
     partial void PrepareBuffer();
     
     private static ShaderTagId s_unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+    private static ShaderTagId s_litShaderTagId = new ShaderTagId("CustomLit");
+    
     private static ShaderTagId[] s_legacyShaderTagIds =
     {
         new ShaderTagId("Always"),
