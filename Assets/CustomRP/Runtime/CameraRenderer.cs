@@ -9,6 +9,8 @@ public partial class CameraRenderer
     private CommandBuffer _commandBuffer = new CommandBuffer{name = BUFFER_NAME};
     private CullingResults _cullingResults;
     
+    private Lighting _lighting = new Lighting();
+    
     public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
         _context = context;
@@ -21,6 +23,8 @@ public partial class CameraRenderer
         {
             return;
         }
+        // the _cullingResults is accessible after culling
+        _lighting.Setup(context, _cullingResults);
 
         context.SetupCameraProperties(camera);
         CameraClearFlags flags = camera.clearFlags;
