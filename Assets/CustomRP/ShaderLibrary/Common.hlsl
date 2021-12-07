@@ -10,6 +10,7 @@
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
 #include "UnityInput.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
 
@@ -23,5 +24,10 @@
 // {
 //     return mul(unity_MatrixVP, float4(positionWS, 1.0));
 // }
+
+float Square (float v)
+{
+    return v * v;
+}
 
 #endif
