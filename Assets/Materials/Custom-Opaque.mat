@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Custom-Lit
+  m_Name: Custom-Opaque
   m_Shader: {fileID: 4800000, guid: eca5a010c30962441b55b02f445f5c9c, type: 3}
   m_ShaderKeywords: _RECEIVE_SHADOWS
   m_LightmapFlags: 4

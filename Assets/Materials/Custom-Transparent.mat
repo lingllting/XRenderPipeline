@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Custom-Lit
+  m_Name: Custom-Transparent
   m_Shader: {fileID: 4800000, guid: eca5a010c30962441b55b02f445f5c9c, type: 3}
-  m_ShaderKeywords: _RECEIVE_SHADOWS
+  m_ShaderKeywords: _PREMULTIPLY_ALPHA _SHADOWS_DITHER
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -63,9 +63,9 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Clipping: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -73,17 +73,17 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PremulAlpha: 0
+    - _PremulAlpha: 1
     - _ReceiveShadows: 1
-    - _Shadows: 0
+    - _Shadows: 2
     - _Smoothness: 0.661
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.5754717, g: 0.43139225, b: 0.3936009, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

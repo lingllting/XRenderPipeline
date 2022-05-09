@@ -18,30 +18,34 @@ public partial class CameraRenderer
 
         PrepareBuffer();
         PrepareForSceneWindow();
+        CommandBufferSampler.SetupContext(context);
         
         if (!Cull(shadowSettings.maxDistance)) 
         {
             return;
         }
-        // the _cullingResults is accessible after culling
-        _lighting.Setup(context, _cullingResults, shadowSettings);
+
+        using (CommandBufferSampler.AddSample(_commandBuffer, SampleName))
+        {
+            // the _cullingResults is accessible after culling
+            _lighting.Setup(context, _cullingResults, shadowSettings);
+        }
 
         context.SetupCameraProperties(camera);
         CameraClearFlags flags = camera.clearFlags;
         _commandBuffer.ClearRenderTarget(flags <= CameraClearFlags.Depth, flags == CameraClearFlags.Color, flags == CameraClearFlags.Color ? camera.backgroundColor.linear : Color.clear);
-        _commandBuffer.BeginSample(SampleName);
+        ExecuteCommandBuffer();
+        using (CommandBufferSampler.AddSample(_commandBuffer, SampleName))
         {
-            ExecuteCommandBuffer();
             DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
             DrawUnsupportedShaders();
         }
-        _commandBuffer.EndSample(SampleName);
-        ExecuteCommandBuffer();
-
         DrawGizmos();
+        
+        _lighting.Cleanup();
         Submit();
     }
-    
+
     void DrawVisibleGeometry(bool useDynamicBatching, bool useGPUInstancing) 
     {
         var sortingSettings = new SortingSettings(_camera);
