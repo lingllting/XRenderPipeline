@@ -18,7 +18,7 @@ struct BRDF
 BRDF GetBRDF (Surface surface, bool applyAlphaToDiffuse = false)
 {
 	BRDF brdf;
-	float oneMinusReflectivity = 1.0 - OneMinusReflectivity(surface.metallic);
+	float oneMinusReflectivity = OneMinusReflectivity(surface.metallic);
 	brdf.diffuse = surface.color * oneMinusReflectivity;
 	if (applyAlphaToDiffuse)
 	{
