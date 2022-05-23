@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CustomRenderPipelineAsset
   m_EditorClassIdentifier: 
   useDynamicBatching: 1
-  useGPUInstancing: 0
+  useGPUInstancing: 1
   useSRPBatching: 1
   shadows:
     maxDistance: 20
