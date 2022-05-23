@@ -43,11 +43,17 @@ float4 MetaPassFragment (Varyings input) : SV_TARGET
     surface.smoothness = GetSmoothness(input.baseUV);
     BRDF brdf = GetBRDF(surface);
     float4 meta = 0.0;
+    // baked indirect light reflectivity
     if (unity_MetaFragmentControl.x)
     {
         meta = float4(brdf.diffuse, 1.0);
         meta.rgb += brdf.specular * brdf.roughness * 0.5;
         meta.rgb = min(PositivePow(meta.rgb, unity_OneOverOutputBoost), unity_MaxOutputValue);
+    }
+    // emissive light
+    else if (unity_MetaFragmentControl.y)
+    {
+        meta = float4(GetEmission(input.baseUV), 1.0);
     }
     return meta;
 }
