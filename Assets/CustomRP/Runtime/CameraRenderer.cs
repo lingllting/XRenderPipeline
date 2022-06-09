@@ -60,9 +60,10 @@ public partial class CameraRenderer
         drawingSettings.enableDynamicBatching = useDynamicBatching;
         drawingSettings.enableInstancing = useGPUInstancing;
 
-        //lightmap
-        drawingSettings.perObjectData = PerObjectData.Lightmaps | PerObjectData.LightProbe |
-                                        PerObjectData.LightProbeProxyVolume;
+        //GI data
+        drawingSettings.perObjectData = PerObjectData.Lightmaps | PerObjectData.ShadowMask | PerObjectData.LightProbe |
+                                        PerObjectData.OcclusionProbe | PerObjectData.LightProbeProxyVolume |
+                                        PerObjectData.OcclusionProbeProxyVolume;
         
         // render opaque objects
         sortingSettings.criteria = SortingCriteria.CommonOpaque;
