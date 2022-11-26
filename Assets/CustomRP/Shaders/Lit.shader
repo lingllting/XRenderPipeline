@@ -46,8 +46,11 @@ Shader "Custom RP/Lit"
 			#pragma multi_compile _ _SHADOW_MASK_ALWAYS _SHADOW_MASK_DISTANCE
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma vertex LitPassVertex
 			#pragma fragment LitPassFragment
+
+			#pragma enable_d3d11_debug_symbols
 			#include "LitPass.hlsl"
 			ENDHLSL
 		}
@@ -64,6 +67,7 @@ Shader "Custom RP/Lit"
 			HLSLPROGRAM
 			#pragma target 3.5
 			#pragma shader_feature _ _SHADOWS_CLIP _SHADOWS_DITHER
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_instancing
 			#pragma vertex ShadowCasterPassVertex
 			#pragma fragment ShadowCasterPassFragment
