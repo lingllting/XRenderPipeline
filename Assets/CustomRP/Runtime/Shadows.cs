@@ -106,7 +106,10 @@ public class Shadows
 	{
 		if (ShadowedDirectionalLightCount > 0)
 		{
-			RenderDirectionalShadows();
+			using (CommandBufferSampler.AddSample(null, "RenderDirectionalShadows"))
+			{
+				RenderDirectionalShadows();
+			}
 		}
 		//not claiming a texture will lead to problems for WebGL 2.0 because it binds textures and samplers together
 		else
@@ -114,7 +117,7 @@ public class Shadows
 			buffer.GetTemporaryRT(dirShadowAtlasId, 1, 1, 32, UnityEngine.FilterMode.Bilinear, RenderTextureFormat.Shadowmap);
 		}
 
-		using (CommandBufferSampler.AddSample(buffer, bufferName))
+		using (CommandBufferSampler.AddSample(null, "SetKeywords"))
 		{
 			SetKeywords(shadowMaskKeywords, useShadowMask ? QualitySettings.shadowmaskMode == ShadowmaskMode.Shadowmask ? 0 : 1 : -1);
 		}

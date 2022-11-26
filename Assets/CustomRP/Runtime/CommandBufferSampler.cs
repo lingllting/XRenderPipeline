@@ -41,6 +41,10 @@ public class CommandBufferSampler : IDisposable
 
 	public static CommandBufferSampler AddSample(CommandBuffer commandBuffer, string sampleName)
 	{
+		if (commandBuffer == null)
+		{
+			commandBuffer = CommandBufferPool.Get(sampleName);
+		}
 		CommandBufferSampler commandBufferSampler = new CommandBufferSampler(commandBuffer, sampleName);
 		commandBufferSampler.BeginSample();
 		return commandBufferSampler;

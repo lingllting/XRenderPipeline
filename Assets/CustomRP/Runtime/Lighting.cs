@@ -9,14 +9,9 @@ public class Lighting
 	// static int dirLightColorId = Shader.PropertyToID("_DirectionalLightColor");
 	// static int dirLightDirectionId = Shader.PropertyToID("_DirectionalLightDirection");
 
-	static int dirLightCountId = Shader.PropertyToID("_DirectionalLightCount"),
-		dirLightColorsId = Shader.PropertyToID("_DirectionalLightColors"),
-		dirLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirections"),
-		dirLightShadowDataId = Shader.PropertyToID("_DirectionalLightShadowData");
+	static int dirLightCountId = Shader.PropertyToID("_DirectionalLightCount"), dirLightColorsId = Shader.PropertyToID("_DirectionalLightColors"), dirLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirections"), dirLightShadowDataId = Shader.PropertyToID("_DirectionalLightShadowData");
 
-	static Vector4[] dirLightColors = new Vector4[maxDirLightCount],
-		dirLightDirections = new Vector4[maxDirLightCount],
-		dirLightShadowData = new Vector4[maxDirLightCount];
+	static Vector4[] dirLightColors = new Vector4[maxDirLightCount], dirLightDirections = new Vector4[maxDirLightCount], dirLightShadowData = new Vector4[maxDirLightCount];
 
 	CullingResults cullingResults;
 
@@ -33,13 +28,12 @@ public class Lighting
 	{
 		this.cullingResults = cullingResults;
 
-		using (CommandBufferSampler.AddSample(buffer, bufferName))
-		{
-			// SetupDirectionalLight();
-			shadows.Setup(context, cullingResults, shadowSettings);
-			SetupLights();
-			shadows.Render();
-		}
+		// SetupDirectionalLight();
+		shadows.Setup(context, cullingResults, shadowSettings);
+		SetupLights();
+		context.ExecuteCommandBuffer(buffer);
+		buffer.Clear();
+		shadows.Render();
 	}
 
 	void SetupDirectionalLight(int index, ref VisibleLight visibleLight)
